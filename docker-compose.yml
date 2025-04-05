@@ -1,0 +1,26 @@
+services:
+  proxy: # Имя сервиса
+   # image: 3proxy/3proxy:0.9.4 # Официальный образ 3proxy от разработчиков
+    build:
+     context: .    # Вы можете указать конкретную версию, например, 0.9.4
+    container_name: 3proxy-service # Имя контейнера
+    restart: unless-stopped
+   # command: ["sleep", "infinity"]
+    ports:
+      - 3128:3128
+      - 1080:1080
+       # Проброс порта [ХОСТ]:[КОНТЕЙНЕР]. Должен совпадать с -p в 3proxy.cfg
+    volumes:
+      # Монтируем наш конфигурационный файл внутрь контейнера
+      # Стандартный путь для конфига в этом образе - /etc/3proxy/3proxy.cfg
+      - ./3proxy.cfg:/etc/3proxy/3proxy.cfg:ro # :ro - только для чтения
+      - ./passwd:/etc/3proxy/passwd
+      - ./logs:/var/log/3proxy
+    # Образ сам запустит 3proxy с /etc/3proxy/3proxy.cfg при старте
+    # command:  ["/bin/3proxy", "/etc/3proxy/3proxy.cfg"]
+    networks:
+      - proxy-net # Подключаем контейнер к сети proxy-net
+
+networks:
+  proxy-net: # Определяем сеть
+    driver: bridge # Используем стандартный драйвер сети bridge
