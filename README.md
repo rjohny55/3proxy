@@ -127,7 +127,7 @@ Markdown
  ```bash
 docker exec <имя_контейнера_3proxy> id proxyuser
 ```
-# Пример:
+## Пример:
  ```bash
 docker exec 3proxy-service id proxyuser
 ```
@@ -135,7 +135,7 @@ docker exec 3proxy-service id proxyuser
 Вы увидите что-то вроде uid=101(proxyuser) gid=102(proxyuser) groups=102(proxyuser). Запомните UID и GID (например, 101 и 102).
 Шаг 2: Измените владельца папки ./logs на хосте. Перейдите в папку, где лежит ваш docker-compose.yml, и выполните (замените UID:GID на реальные значения):
 sudo chown UID:GID ./logs
-# Пример: 
+## Пример: 
  ```bash
 sudo chown 101:102 ./logs
 ```
